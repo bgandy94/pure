@@ -53,6 +53,11 @@ prompt_pure_check_cmd_exec_time() {
 	}
 }
 
+prompt_pure_check_aws_profile() {
+	local aws_profile=$(echo $AWSUME_PROFILE)
+	typeset -g prompt_pure_cmd_aws_profile=$aws_profile
+}
+
 prompt_pure_set_title() {
 	setopt localoptions noshwordsplit
 
@@ -163,6 +168,15 @@ prompt_pure_preprompt_render() {
 	# Execution time.
 	[[ -n $prompt_pure_cmd_exec_time ]] && preprompt_parts+=('%F{$prompt_pure_colors[execution_time]}${prompt_pure_cmd_exec_time}%f')
 
+	local print_aws_profile
+	
+	if [ -z "$(echo "$AWSUME_PROFILE")" ]; then
+		print_aws_profile='%F{red}No AWS profile'
+	else
+		print_aws_profile='AWS PROFILE=%F{$prompt_pure_colors[aws:profile]}${prompt_pure_cmd_aws_profile}%f'
+	fi
+
+
 	local cleaned_ps1=$PROMPT
 	local -H MATCH MBEGIN MEND
 	if [[ $PROMPT = *$prompt_newline* ]]; then
@@ -175,6 +189,8 @@ prompt_pure_preprompt_render() {
 	# Construct the new prompt with a clean preprompt.
 	local -ah ps1
 	ps1=(
+		$print_aws_profile
+		$prompt_newline           # Separate preprompt and prompt.
 		${(j. .)preprompt_parts}  # Join parts, space separated.
 		$prompt_newline           # Separate preprompt and prompt.
 		$cleaned_ps1
@@ -199,6 +215,9 @@ prompt_pure_preprompt_render() {
 
 prompt_pure_precmd() {
 	setopt localoptions noshwordsplit
+
+	# Check aws profile and store it in a variable
+	prompt_pure_check_aws_profile
 
 	# Check execution time and store it in a variable.
 	prompt_pure_check_cmd_exec_time
@@ -834,6 +853,7 @@ prompt_pure_setup() {
 		user                 242
 		user:root            default
 		virtualenv           242
+		aws:profile			 cyan
 	)
 	prompt_pure_colors=("${(@kv)prompt_pure_colors_default}")
 
