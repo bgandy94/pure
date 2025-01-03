@@ -54,7 +54,7 @@ prompt_pure_check_cmd_exec_time() {
 }
 
 prompt_pure_check_aws_profile() {
-	local aws_profile=$(echo $AWSUME_PROFILE)
+	local aws_profile=$(echo $AWS_PROFILE)
 	typeset -g prompt_pure_cmd_aws_profile=$aws_profile
 }
 
@@ -170,7 +170,7 @@ prompt_pure_preprompt_render() {
 
 	local print_aws_profile
 	
-	if [ -z "$(echo "$AWSUME_PROFILE")" ]; then
+	if [ -z "$(echo "$AWS_PROFILE")" ]; then
 		print_aws_profile='%F{red}No AWS profile'
 	else
 		print_aws_profile='AWS PROFILE=%F{$prompt_pure_colors[aws:profile]}${prompt_pure_cmd_aws_profile}%f'
