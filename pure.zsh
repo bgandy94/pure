@@ -171,7 +171,7 @@ prompt_pure_preprompt_render() {
 	local print_aws_profile
 	
 	if [ -z "$(echo "$AWS_PROFILE")" ]; then
-		print_aws_profile='%F{red}No AWS profile'
+		print_aws_profile='AWS PROFILE=%F{red}none'
 	else
 		print_aws_profile='AWS PROFILE=%F{$prompt_pure_colors[aws:profile]}${prompt_pure_cmd_aws_profile}%f'
 	fi
