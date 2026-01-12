@@ -51,7 +51,7 @@ fpath+=("$(brew --prefix)/share/zsh/site-functions")
 
 ```sh
 mkdir -p "$HOME/.zsh"
-git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+git clone https://github.com/bgandy94/pure.git "$HOME/.zsh/pure"
 ```
 
 2. Add the path of the cloned repo to `$fpath` in `$HOME/.zshrc`.
